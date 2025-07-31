@@ -162,7 +162,8 @@ func (e *Emulator) generateObject(schema *spec.Schema) (map[string]interface{}, 
 }
 
 // generateString generates a string based on the provided schema.
-func (e *Emulator) generateString(schema *spec.Schema) string {
+func (e *Emula
+      tor) generateString(schema *spec.Schema) string {
 	if len(schema.Enum) > 0 {
 		return schema.Enum[e.rand.Intn(len(schema.Enum))].(string)
 	}
