@@ -141,25 +141,26 @@ func (e *Emulator) generateValue(schema *spec.Schema) (interface{}, error) {
 
 // generateObject generates an object based on the provided schema.
 func (e *Emulator) generateObject(schema *spec.Schema) (map[string]interface{}, error) {
-	if schema == nil {
-		
-			return nil, fmt.Errorf("schema is nil")
-	}
-		
+    if schema == nil {
+        return nil, fmt.Errorf("schema is nil")
+    }
 
-	
-			
-	result := make(map[string]interface{})
-	for propertyName, propertySchema := range schema.Properties {
-		value, err := e.generateValue(&propertySchema)
-		if err != nil {
-			return nil, fmt.Errorf("error generating field %s: %w", propertyName, err)
-		}
-		result[propertyName] = value
-	}
+    if len(schema.Properties) == 0 && schema.AdditionalProperties != nil && schema.AdditionalProperties.Allows {
+        return make(map[string]interface{}), nil
+    }
 
-	return result, nil
+    result := make(map[string]interface{})
+    for propertyName, propertySchema := range schema.Properties {
+        value, err := e.generateValue(&propertySchema)
+        if err != nil {
+            return nil, fmt.Errorf("error generating field %s: %w", propertyName, err)
+        }
+        result[propertyName] = value
+    }
+
+    return result, nil
 }
+
 
 // generateString generates a string based on the provided schema.
 func (e *Emula
