@@ -135,15 +135,20 @@ func (e *Emulator) generateValue(schema *spec.Schema) (interface{}, error) {
 		return nil, nil
 	default:
 		return nil, fmt.Errorf("unsupported type: %s", schema.Type)
+	
 	}
 }
 
 // generateObject generates an object based on the provided schema.
 func (e *Emulator) generateObject(schema *spec.Schema) (map[string]interface{}, error) {
 	if schema == nil {
-		return nil, fmt.Errorf("schema is nil")
+		
+			return nil, fmt.Errorf("schema is nil")
 	}
+		
 
+	
+			
 	result := make(map[string]interface{})
 	for propertyName, propertySchema := range schema.Properties {
 		value, err := e.generateValue(&propertySchema)
@@ -177,6 +182,7 @@ func (e *Emulator) generateInteger(schema *spec.Schema) int64 {
 	}
 
 	if min == max {
+		
 		return min
 	}
 
@@ -207,12 +213,15 @@ func (e *Emulator) generateArray(schema *spec.Schema) ([]interface{}, error) {
 	maxItems := 3
 
 	if schema.MinItems != nil {
+		
 		minItems = int(*schema.MinItems)
 	}
 	if schema.MaxItems != nil {
 		maxItems = int(*schema.MaxItems)
 	}
 
+
+	
 	numItems := minItems
 	if maxItems > minItems {
 		numItems += e.rand.Intn(maxItems - minItems)
@@ -229,3 +238,5 @@ func (e *Emulator) generateArray(schema *spec.Schema) ([]interface{}, error) {
 
 	return result, nil
 }
+
+
